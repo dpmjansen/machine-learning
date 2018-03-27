@@ -12298,12 +12298,12 @@ Think about the pros and cons of adding more training points based on if the tra
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
 <p>Model max_depth = 1:</p>
-<p>What happens to the score of the training curve as more training points are added? 
-The r2 score seems to remain along 0.5 or even go a bit below that. In general, the score does not improve at all.</p>
-<p>What about the testing curve?
-The r2 score also stays a little unde 5.0 most of the time, but the line does seem to converge towards the training line. The score however does not improve.</p>
-<p>Would having more training points benefit the model?
-No. The model looks like it has a high bias (as this would be an example for underfitting). In general it does not perform a lot better then guessing.</p>
+<p><em>What happens to the score of the training curve as more training points are added?</em></p>
+<p>The r2 score seems to remain along 0.5 or even go a bit below that. In general, the score does not improve at all.</p>
+<p><em>What about the testing curve? </em></p>
+<p>The r2 score also stays a little unde 5.0 most of the time, but the line does seem to converge towards the training line. The score however does not improve.</p>
+<p><em>Would having more training points benefit the model? </em></p>
+<p>No. The model looks like it has a high bias (as this would be an example for underfitting). In general it does not perform a lot better then guessing.</p>
 
 </div>
 </div>
@@ -12371,9 +12371,9 @@ No. The model looks like it has a high bias (as this would be an example for und
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>When the model is trained with a maximum depth of 1, does the model suffer from high bias or from high variance?</p>
+<p><em>When the model is trained with a maximum depth of 1, does the model suffer from high bias or from high variance? </em></p>
 <p>The model suffers from <code>high bias</code></p>
-<p>How about when the model is trained with a maximum depth of 10? What visual cues in the graph justify your conclusions?</p>
+<p><em>How about when the model is trained with a maximum depth of 10? What visual cues in the graph justify your conclusions? </em></p>
 <p>The model suffers from <code>high variance</code>. This can be seen by</p>
 <ul>
 <li>looking at the training score. The score is getting close to (or actually is) 1.0</li>
@@ -12402,9 +12402,9 @@ No. The model looks like it has a high bias (as this would be an example for und
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>Which maximum depth do you think results in a model that best generalizes to unseen data?</p>
+<p><em>Which maximum depth do you think results in a model that best generalizes to unseen data? </em></p>
 <p><code>max_depth = 3</code></p>
-<p>What intuition lead you to this answer?</p>
+<p><em>What intuition lead you to this answer? </em></p>
 <p>Both lines are still close to eachother wile having a higher score the the previous <code>max_depth</code> values. Also, the validation score seems to no longer be increasing after this point.</p>
 
 </div>
@@ -12629,8 +12629,9 @@ For the <code>fit_model</code> function in the code cell below, you will need to
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong> Hint: </strong> The answer comes from the output of the code snipped above.</p>
 <p><strong>Answer: </strong></p>
-<p>Output: <code>Parameter 'max_depth' is 4 for the optimal model.</code>
-Note: this is 1 off from the guess I made in question 6 (I guessed 3)</p>
+<p>Output:</p>
+<p><code>Parameter 'max_depth' is 4 for the optimal model.</code></p>
+<p>This is 1 off from the guess I made in question 6 (I guessed 3)</p>
 
 </div>
 </div>
