@@ -198,7 +198,7 @@ Furthermore, due to only the heads of household being considered relevant by the
 One could argue that using a macro F1 score is not the best choice for measuring. In python's sklearn package, a method for implementing the macro F1 score is available, however it states the following: "Calculate metrics for each label, and find their unweighted mean. \textbf{This does not take label imbalance into account}.". Due to the dataset having a label (or class) imbalance, this forces somehow getting rid of the class imbalance so the resulting measure can be more meaningful. The measure however is set by the competition host, and cannot be changed. 
 
 \subsection{Benchmark}
-For benchmarking, a Random Forest classifier was chosen to compete the neural network. In order to create a semi-competitive model, Grid Search was employed to select some of the hyper parameters. The resulting macro F1 score looked promising, although the model does show signs of overfitting (Table \ref{table:benchmark_F1}).
+For benchmarking, a Random Forest classifier was chosen to compete the neural network. In order to create a semi-competitive model, Grid Search was employed to select some of the hyper parameters. The resulting macro F1 score looked promising, although the model does show signs of overfitting (Table \ref{table:benchmark_F1}). After applying Grid Search, the hyperparameters \textit{min{\_}samples{\_}leaf} and \textit{min{\_}samples{\_}split} were set to 2 and 10 respectively. All other hyperparameters remained the same.
 
 \begin{table}[]
 \resizebox{\textwidth}{!}{
@@ -322,7 +322,7 @@ model.add(Dense(32 ,activation='relu'))
 model.add(Dropout(0.20))
 model.add(Dense(32 ,activation='relu'))
 model.add(Dropout(0.20))
-model.add(Dense(y_train_encoded.shape[1], activation='relu')) # back to one-hot-encoded result
+model.add(Dense(y_train_encoded.shape[1], activation='relu'))
 
 model.summary()
 \end{lstlisting}
@@ -354,7 +354,7 @@ model.add(BatchNormalization())
 model.add(Dense(64 ,activation='tanh'))
 model.add(Dropout(0.2))
 model.add(BatchNormalization())
-model.add(Dense(y_train_encoded.shape[1], activation='relu')) # back to one-hot-encoded result
+model.add(Dense(y_train_encoded.shape[1], activation='relu'))
 
 model.summary()
 \end{lstlisting}
@@ -383,23 +383,31 @@ The final model consists of 6 Dense layers, 5 Dropout layers and 5 BatchNormaliz
 \begin{table}[]
 \begin{tabular}{lll}
 \textbf{Dataset} & \textbf{macro F1 Random Forest} & \textbf{macro F1 DNN}\\
-Training & 0.9299 & 0.00 \\
-Cross-validation & 0.4153 & 0.00 \\
-Testing & 0.3880 & 0.00
+Training & 0.9299 & - \\
+Cross-validation & 0.4153 & 0.2420 \\
+Testing & 0.3920 & 0.1250
 \end{tabular}
 \caption{macro F1 score comparison}
 \label{table:comparison_F1}
 \end{table}
-The final results are compared to the benchmark result or threshold with some type of statistical analysis. Justification is made as to whether the final model and solution is significant enough to have adequately solved the problem.
+Although improvements looked promising during the development process of the Deep Neural Network, it does not compare to the Random Forest Classifier at this stage. On the testing dataset, the macro F1 score of the DNN is over 20\% lower then the Random Forest Classifier (Table \ref{table:comparison_F1}). Although with some added improvements like better pre-processing of the data or trying a different architecture, it does not prove to be a good starting point for this specific problem.
 
 \section{Conclusion}
 \label{S:5}
 
 \subsection{Free-Form Visualization}
-A visualization has been provided that emphasizes an important quality about the project with thorough discussion. Visual cues are clearly defined.
+
+\begin{figure}[!h]
+\centering\includegraphics[width=0.8\linewidth]{dnn_measurements}
+\caption{DNN accuracy and loss}
+\label{fig:dnn_measurements}
+\end{figure}
+
+In Figure \ref{fig:dnn_measurements} results for training the network can be shown. the upper image shows the categorical accuracy of the model, measured by keras' \textit{metrics.categorical{\_}accuracy}. The lower image shows the loss over each run. Although minimal, during training the model does seem to optimize itself slowly. The categorical accuracy of the model however does not really improves during training. One problem with the model is that it does not seem to give stable results. During development of the model, it would sometimes reach a macro F1 score of 0.29 on the validation dataset, but could also go as low as 0.08. Although the best score is stored and loaded to do the eventual prediction, the 'best' model may not always show itself. Looking at the Figure \ref{fig:dnn_f1_comparison} and taking into account that the Random Forest Classifier also had a lower score on the testing dataset, the final score on the testing set is not completely unexpected.
+
 
 \subsection{Reflection}
-Using a deep neural network for predicting this problem did not proof to be a good solution. Partially this may be because of the data, and quite possibly also the model. I still struggle with is coming up with a design for a neural network. Although there is a lot of information online about neural networks, most of it is used for computer vision. It seems there are no concrete steps in building one, and that advice is mostly given in heuristics like ''don't overcomplicate it'. I did learn a couple of interesting things about the design. One thing that surprised me was the 'dead' ReLU problem where predictions were all 0, which did not conform for any situation. Some online material on this was helpful. Another surprise was the effect either oversampling or undersampling had on the resulting macro F1 score. In general, there is a lot for me to still learn in this area, both in Data Science and Machine Learning. I am positive I will keep on improving my skills for the future.
+Using a deep neural network for predicting this problem did not prove to be a good solution. Partially this may be because of the data, and quite possibly also the model. I still struggle with is coming up with a design for a neural network. Although there is a lot of information online about neural networks, most of it is used for computer vision. It seems there are no concrete steps in building one, and that advice is mostly given in heuristics like ''don't overcomplicate it'. I did learn a couple of interesting things about the design. One thing that surprised me was the 'dead' ReLU problem where predictions were all 0, which did not conform for any situation. Some online material on this was helpful. Another surprise was the effect either oversampling or undersampling had on the resulting macro F1 score. In general, there is a lot for me to still learn in this area, both in Data Science and Machine Learning. I am positive I will keep on improving my skills for the future.
 
 \subsection{Improvement}
 The biggest problem I found was that it was hard for the model to separate the data. One improvement would be to spent more time in pre-processing the data, this would take some time however. Additionally, not using a neural network but a more conventional machine learning algorithm might prove to be a better idea. An additional improvement would be to stabilize the model more. While running simulations, the resulting macro F1 score could differ by approximately 0.10 between runs, without the model changing.
