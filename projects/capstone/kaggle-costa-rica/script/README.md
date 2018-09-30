@@ -14,3 +14,5 @@ matplotlib
 sklearn
 imblearn
 keras
+pydot
+graphviz

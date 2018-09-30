@@ -48,6 +48,9 @@
 %% package for code quoting
 \usepackage{listings}
 
+%%Give abaility to link url's?
+\usepackage{url}
+
 %% natbib.sty is loaded by default. However, natbib options can be
 %% provided with \biboptions{...} command. Following options are
 %% valid:
@@ -105,7 +108,6 @@
 %% \address[label2]{<address>}
 
 \author{David Jansen}
-%% \ead{dpmjansen@gmail.com}
 
 \address{Groningen, Netherlands}
 
@@ -134,12 +136,20 @@ Kaggle
 \subsection{Project Overview}
 
 Accurately assessing social needs to ensure the poorest people our planet get the help they need is a difficult task. The Inter- American Development Bank (IADB) is an organization which focuses to improve the lives of those who live in Latin America and the Caribbean. Publications made in December 2016 by the IADB reveal that in 2015 between 8.2\% for Chili to 68.7\% of the total population of those countries live of less than 5 USD a day. Extreme cases of poverty range between 2.7\% for Chili and a shocking 32.6\% for Guatemala, where the income a day is less than 3.1 USD. In a study in 2015 a proposition was made to apply machine learning to poverty targeting (\citet{McBride:2015}). The study revealed that they were able to improve on the then standardized method for targeting applied by the USAID by 2 to 18 percent using a Random Forest algorithm. For this reason, the IADB is looking for new ways to reach people who are in need of help. They have reached out to the Kaggle community in order to find new ways to help identify vulnerable households who may need help.
+\\
+\\
+The IADB has supplied Kaggle community members with a labeled dataset which contains datapoints of individuals and households which were scored and labeled according to a Proxy Mean Test (See \ref{ss:problem_statement}). The dataset is freely available from Kaggle for registered members (URL: \url{https://www.kaggle.com/c/costa-rican-household-poverty-prediction/data})
 
 \subsection{Problem Statement}
+\label{ss:problem_statement}
 
 In Latin America, a Proxy Means Test (PMT) is used to asses the level of need a household needs. Despite this assessment being an improvement, a need for a model which more accurately classifies these households is present. The IADB has asked to Kaggle Community to create such a model. They have provided a dataset containing multiple characteristics of a Costa Rican household.
+\\
+\\
+In order to predict the correct label of the data, a prediction model in the shape of a Deep Neural Network (DNN) will be created using the training dataset as a base. In preparation of training the model, the dataset will first be preprocessed. This will include resolving any missing datapoints and deleting features with low variance. After the preparation, a Random Forest algorithm will be created in order to create a competitive benchmarking model for the DNN. The resulting macro F1 score (See \ref{ss:metrics}) of the Random Forest algorithm will be used as a measurement for developing and improving the DNN. The macro F1 score of the DNN will be used for evaluation. Realistically, the quality of the DNN depends heavily on the quality and separability of the data. It will prove challenging to create a DNN which can compete with a Random Forest algorithm.
 
 \subsection{Metrics}
+\label{ss:metrics}
 
 For this project, a predefined metric was given. A macro F1 score will be used to determine the accuracy of the model. A F1 score is defined as a harmonic mean of precision and recall (\citet{Yutaka:2007}).\\
 
@@ -194,10 +204,24 @@ Furthermore, due to only the heads of household being considered relevant by the
 
 
 \subsection{Algorithms and Techniques}
+This project features a Deep Neural Network for predicting the label of the data. A neural network is based on the idea of how neurons work in the brain. A neuron receives, processes and transmits information from and to other neurons. The input for a neuron is received on the dendrites, the cell body processes information and the axon transmits information (output). A neural network process information in a similar way. It consists out of multiple perceptrons which receive, processes and transmits information from and to other perceptrons. It consists out of an input layer, a hidden layer and an output layer (Figure \ref{fig:neuronvperceptron}). A \textit{Deep} Neural Network differs itself from a regular neural network by having several more hidden layers (Figure \ref{fig:mlpvdnn}). Neural networks are known to excel at (among others) image recognition and natural language processing, creating super-human levels of performance and vastly improving on more traditional machine learning models. Problems with DNN's consists of it lacking a lot of theoretical foundation other algorithms do have, it's need for having a lot of data in order to perform, it being computational expensive and it being very hard to determine what is going on in the hidden layers of a DNN. Due to the possibilities of a DNN, it could outperform the proposed benchmarking model (See \ref{ss:benchmark}) and was therefor chosen as a model to experiment with.
 
-One could argue that using a macro F1 score is not the best choice for measuring. In python's sklearn package, a method for implementing the macro F1 score is available, however it states the following: "Calculate metrics for each label, and find their unweighted mean. \textbf{This does not take label imbalance into account}.". Due to the dataset having a label (or class) imbalance, this forces somehow getting rid of the class imbalance so the resulting measure can be more meaningful. The measure however is set by the competition host, and cannot be changed. 
+\begin{figure}[h!]
+\centering\includegraphics[width=0.8\linewidth]{neuronvperceptron}
+\caption{From:https://appliedgo.net/perceptron/ Neurons vs Perceptrons}
+\label{fig:neuronvperceptron}
+\end{figure}
+
+\begin{figure}[h!]
+\centering\includegraphics[width=1.0\linewidth]{mlpvdnn}
+\caption{From:http://neuralnetworksanddeeplearning.com/chap5.html Neural Network vs Deep Neural Network}
+\label{fig:mlpvdnn}
+\end{figure}
+
+\textbf{Note about the macro F1 score:} One could argue that using a macro F1 score is not the best choice for measuring. In python's sklearn package, a method for implementing the macro F1 score is available, however it states the following: "Calculate metrics for each label, and find their unweighted mean. \textbf{This does not take label imbalance into account}.". Due to the dataset having a label (or class) imbalance, this forces somehow getting rid of the class imbalance so the resulting measure can be more meaningful. The measure however is set by the competition host, and cannot be changed. 
 
 \subsection{Benchmark}
+\label{ss:benchmark}
 For benchmarking, a Random Forest classifier was chosen to compete the neural network. In order to create a semi-competitive model, Grid Search was employed to select some of the hyper parameters. The resulting macro F1 score looked promising, although the model does show signs of overfitting (Table \ref{table:benchmark_F1}). After applying Grid Search, the hyperparameters \textit{min{\_}samples{\_}leaf} and \textit{min{\_}samples{\_}split} were set to 2 and 10 respectively. All other hyperparameters remained the same.
 
 \begin{table}[]
